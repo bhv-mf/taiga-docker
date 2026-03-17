@@ -1,7 +1,6 @@
 version: "3.5"
 
-x-environment:
-  &default-back-environment
+x-environment: &default-back-environment
   # These environment variables will be used by taiga-back and taiga-async.
   # Database settings
   POSTGRES_DB: "taiga"
@@ -28,10 +27,11 @@ x-environment:
   # Telemetry settings
   ENABLE_TELEMETRY: "${ENABLE_TELEMETRY}"
   # ...your customizations go here
+  ENABLE_SLACK: True
+  PUBLIC_REGISTER_ENABLED: "False"
 
 x-volumes:
-  &default-back-volumes
-  # These volumens will be used by taiga-back and taiga-async.
+  &default-back-volumes # These volumens will be used by taiga-back and taiga-async.
   - taiga-static-data:/taiga-back/static
   - taiga-media-data:/taiga-back/media
   # - ./config.py:/taiga-back/settings/config.py
@@ -103,6 +103,7 @@ services:
       TAIGA_WEBSOCKETS_URL: "${WEBSOCKETS_SCHEME}://${TAIGA_DOMAIN}"
       TAIGA_SUBPATH: "${SUBPATH}"
       # ...your customizations go here
+      PUBLIC_REGISTER_ENABLED: false
     networks:
       - taiga
     # volumes:
